@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserDto {
+  id: String!
+  username: String!
+  email: String!
+}
+
+type Query {
+  authenticateWithGoogle(input: TokenDTO!): String!
+  sayHello: String!
+}
+
+input TokenDTO {
+  token: String!
+}
+
+type Mutation {
+  authenticate: UserDto!
+}
