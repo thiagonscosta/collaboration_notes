@@ -20,13 +20,14 @@ export class AuthenticateResolver {
   async authenticateWithGoogle(
     @Args('input') input: TokenDTO,
   ): Promise<string> {
-    const { accessTokenCookie, refreshTokenCookie, user } =
-      await this.service.authenticateWithGoogle(input.token);
+    //const { accessTokenCookie, refreshTokenCookie, user } =
+    await this.service.authenticateWithGoogle(input.token);
     // request.res.setHeader('Set-Cookie', [
     //   accessTokenCookie,
     //   refreshTokenCookie,
     // ]);
-    console.log(accessTokenCookie, refreshTokenCookie, user);
+    // console.log(accessTokenCookie, refreshTokenCookie, user);
+    // console.log(input.token)
     return input.token;
   }
 }

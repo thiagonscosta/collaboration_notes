@@ -11,7 +11,6 @@ import { DatabaseModule } from 'src/database/database.module';
     AuthenticateService,
     AuthenticateResolver,
     AuthenticateRepository,
-    // DatabaseService,
   ],
 })
 export class AuthenticateModule {}

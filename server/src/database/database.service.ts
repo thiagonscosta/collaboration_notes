@@ -6,7 +6,8 @@ import { DATABASE_POOL } from 'src/constants';
 export class DatabaseService {
   constructor(@Inject(DATABASE_POOL) private pool: Pool) {}
 
-  executeQuery(queryText: string, values: any[] = []): Promise<any[]> {
+  executeQuery(queryText: string, values: any = []): Promise<any[]> {
+    console.log(queryText, values);
     return this.pool.query(queryText, values).then((result: QueryResult) => {
       return result.rows;
     });

@@ -22,7 +22,6 @@ const actions = {
   },
 
   async authenticateWithGoogle({ commit }, input) {
-    console.log(input);
     const { res } = await apolloClient.query({
       query: AUTHENTICATE_WITH_GOOGLE,
       variables: { input: input },

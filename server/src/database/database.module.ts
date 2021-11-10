@@ -4,7 +4,9 @@ import { ModuleRef } from '@nestjs/core';
 import { Pool } from 'pg';
 import { DATABASE_POOL } from 'src/constants';
 import { DatabaseService } from './database.service';
-import doent from 'dotenv';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const databasePoolFactory = async (configService: ConfigService) => {
   return new Pool({
