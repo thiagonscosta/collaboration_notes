@@ -18,7 +18,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {},
+  // setup(props) {},
   methods: {
     async getGoogleToken() {
       try {
@@ -27,7 +27,9 @@ export default {
           return null;
         }
         const token = googleUser.getAuthResponse().access_token;
+        // console.log(googleUser.getAuthResponse());
         this.$emit("onGoogleAuth", { token });
+        console.log("getAuthResponse", googleUser);
       } catch (error) {
         console.error(error);
         return null;
@@ -36,4 +38,3 @@ export default {
   },
 };
 </script>
-

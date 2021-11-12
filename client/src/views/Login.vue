@@ -36,7 +36,6 @@ export default {
     }
 
     function googleAuthenticate(token) {
-      console.log(token)
       store.dispatch("authModule/authenticateWithGoogle", token);
     }
 
@@ -48,4 +47,3 @@ export default {
   methods: {},
 };
 </script>
-

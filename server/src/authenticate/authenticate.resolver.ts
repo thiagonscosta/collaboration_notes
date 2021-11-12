@@ -5,6 +5,7 @@ import { Request } from 'express';
 import { LoginDto } from './dto/login-dto';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UserDto } from './dto/user-dto';
+import { CreateUserDto } from './dto/createUser-dto';
 
 @Resolver('Auth')
 export class AuthenticateResolver {
@@ -14,6 +15,16 @@ export class AuthenticateResolver {
   authenticate(@Body() loginDto: LoginDto) {
     console.log(loginDto);
     return loginDto;
+  }
+
+  @Mutation(() => UserDto)
+  signup(@Body() input: CreateUserDto) {
+    return input;
+  }
+
+  @Mutation(() => UserDto)
+  signupWithGoogle(@Body() input: TokenDTO) {
+    return input;
   }
 
   @Query(() => String)

@@ -19,4 +19,6 @@ input TokenDTO {
 
 type Mutation {
   authenticate: UserDto!
+  signup: UserDto!
+  signupWithGoogle: UserDto!
 }
