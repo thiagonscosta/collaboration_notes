@@ -3,6 +3,7 @@ import {
   AUTHENTICATE,
   AUTHENTICATE_WITH_GOOGLE,
   CREATE_USER,
+  CREATE_USER_WITH_GOOGLE,
 } from "../../graphql/queries/auth";
 
 const state = {
@@ -22,6 +23,7 @@ const actions = {
   },
 
   async authenticateWithGoogle({ commit }, input) {
+    console.log(input);
     const { res } = await apolloClient.query({
       query: AUTHENTICATE_WITH_GOOGLE,
       variables: { input: input },
@@ -29,7 +31,17 @@ const actions = {
     commit("setUser", res);
   },
 
+  async createUserWithGoogle({ commit }, input) {
+    console.log(input);
+    const { res } = await apolloClient.mutate({
+      mutation: CREATE_USER_WITH_GOOGLE,
+      variables: { input: input },
+    });
+    commit("setUser", res);
+  },
+
   async createUser({ commit }, input) {
+    console.log(input);
     const { res } = await apolloClient.mutate({
       mutation: CREATE_USER,
       variables: { input: input },

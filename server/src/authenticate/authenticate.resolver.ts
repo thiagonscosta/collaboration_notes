@@ -1,7 +1,6 @@
-import { Body, Req } from '@nestjs/common';
+import { Body } from '@nestjs/common';
 import { AuthenticateService } from './authenticate.service';
 import TokenDTO from './dto/token-dto';
-import { Request } from 'express';
 import { LoginDto } from './dto/login-dto';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UserDto } from './dto/user-dto';
@@ -11,20 +10,24 @@ import { CreateUserDto } from './dto/createUser-dto';
 export class AuthenticateResolver {
   constructor(private readonly service: AuthenticateService) {}
 
-  @Mutation(() => UserDto)
+  @Query(() => UserDto)
   authenticate(@Body() loginDto: LoginDto) {
     console.log(loginDto);
     return loginDto;
   }
 
-  @Mutation(() => UserDto)
-  signup(@Body() input: CreateUserDto) {
-    return input;
-  }
+  // @Mutation(() => String)
+  // async signup(@Args('input') input: CreateUserDto): Promise<string> {
+  //   console.log(input);
+  //   await this.service.signup(input);
+  //   return input.username;
+  // }
 
-  @Mutation(() => UserDto)
-  signupWithGoogle(@Body() input: TokenDTO) {
-    return input;
+  @Mutation(() => String)
+  async signupWithGoogle(@Args('input') input: TokenDTO): Promise<string> {
+    console.log(input);
+    await this.service.signupWithGoogle(input.token);
+    return input.token;
   }
 
   @Query(() => String)

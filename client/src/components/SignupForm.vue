@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="onSubmit">
     <div class="form-group">
       <label for="username">Username</label>
       <input
@@ -40,7 +40,7 @@ import { ref } from "vue";
 
 export default {
   name: "SignupForm",
-  setup() {
+  setup(props, { emit }) {
     const username = ref("");
     const email = ref("");
     const password = ref("");
@@ -51,8 +51,12 @@ export default {
         username: username.value,
         email: email.value,
         password: password.value,
-        confirm_password: confirm_password.value,
+        // confirm_password: confirm_password.value,
       };
+
+      // if (data.password !== data.confirm_password) {
+      // }
+
       emit("onSubmitSignup", data);
     }
     return {
