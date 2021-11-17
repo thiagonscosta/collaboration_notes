@@ -19,7 +19,7 @@ export class AuthenticateService {
   }
 
   async signup(data: CreateUserDto) {
-    console.log(data);
+    
   }
 
   async signupWithGoogle(token: string) {
@@ -32,7 +32,7 @@ export class AuthenticateService {
     const userData = {
       username: userInfo.name,
       email: userInfo.email,
-      authWithGoogle: true,
+      auth_with_google: true,
     };
 
     await this.repository.signupWithGoogle(userData);
