@@ -32,6 +32,7 @@ export default {
     const store = useStore();
 
     function submitLogin(data) {
+      console.log(data);
       store.dispatch("authModule/authenticate", data);
     }
 

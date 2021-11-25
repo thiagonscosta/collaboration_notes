@@ -14,25 +14,24 @@ const state = {
 const getters = {};
 
 const actions = {
-  async authenticate({ commit }, data) {
-    const { res } = await apolloClient.mutate({
-      mutation: AUTHENTICATE,
-      variables: { data },
-    });
-    commit("setUser", res);
-  },
-
-  async authenticateWithGoogle({ commit }, input) {
+  async authenticate({ commit }, input) {
     console.log(input);
     const { res } = await apolloClient.query({
-      query: AUTHENTICATE_WITH_GOOGLE,
+      query: AUTHENTICATE,
       variables: { input: input },
     });
     commit("setUser", res);
   },
 
+  async authenticateWithGoogle({ commit }, input) {
+    const { res } = await apolloClient.query({
+      query: AUTHENTICATE_WITH_GOOGLE,
+      variables: { input: input },
+    });
+    commit("setUser", commit);
+  },
+
   async createUserWithGoogle({ commit }, input) {
-    console.log(input);
     const { res } = await apolloClient.mutate({
       mutation: CREATE_USER_WITH_GOOGLE,
       variables: { input: input },

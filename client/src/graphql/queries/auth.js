@@ -1,10 +1,8 @@
 import gql from "graphql-tag";
 
 export const AUTHENTICATE = gql`
-  mutation ($input: LoginDto!) {
-    authenticate(input: $input) {
-      id
-    }
+  query ($input: LoginDto!) {
+    authenticate(input: $input)
   }
 `;
 
