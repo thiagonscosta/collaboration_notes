@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Auth, google } from 'googleapis';
 import { AuthenticateRepository } from './authenticate.repository';
 import { CreateUserDto } from './dto/createUser-dto';
+import { User } from './models/user';
 
 @Injectable()
 export class AuthenticateService {
@@ -18,11 +19,7 @@ export class AuthenticateService {
     this.oauthClient = new google.auth.OAuth2(clientID, clientSecret);
   }
 
-  async signup(data: CreateUserDto) {
-    
-  }
-
-  async signupWithGoogle(token: string) {
+  async signupWithGoogle(token: string): Promise<User> {
     const userInfo = await this.getUserData(token);
 
     if (!userInfo.verified_email) {
@@ -35,10 +32,17 @@ export class AuthenticateService {
       auth_with_google: true,
     };
 
-    await this.repository.signupWithGoogle(userData);
+    const user = this.repository.signupWithGoogle(userData);
+
+    return user;
   }
 
-  async authenticateWithGoogle(token: string) {
+  async signup(data: CreateUserDto): Promise<User> {
+    const user = await this.repository.signupWithGoogle(data);
+    return user;
+  }
+
+  async authenticateWithGoogle(token: string): Promise<User> {
     const tokenInfo = await this.oauthClient.getTokenInfo(token);
 
     if (!tokenInfo.email_verified) {
@@ -47,7 +51,9 @@ export class AuthenticateService {
 
     const email = tokenInfo.email;
 
-    return await this.repository.authenticateWithGoogle({ email });
+    const user = await this.repository.authenticateWithGoogle({ email });
+
+    return user;
   }
 
   async getTokenInfo(token: string) {

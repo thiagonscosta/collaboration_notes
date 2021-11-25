@@ -1,47 +1,40 @@
-import { Body } from '@nestjs/common';
 import { AuthenticateService } from './authenticate.service';
 import TokenDTO from './dto/token-dto';
 import { LoginDto } from './dto/login-dto';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
-import { UserDto } from './dto/user-dto';
+import { User } from './models/user';
 import { CreateUserDto } from './dto/createUser-dto';
 
 @Resolver('Auth')
 export class AuthenticateResolver {
   constructor(private readonly service: AuthenticateService) {}
 
-  @Query(() => UserDto)
-  authenticate(@Body() loginDto: LoginDto) {
-    console.log(loginDto);
-    return loginDto;
+  @Query(() => String)
+  authenticate(@Args('input') input: LoginDto) {
+    console.log(input);
+    return input.email;
   }
 
-  // @Mutation(() => String)
-  // async signup(@Args('input') input: CreateUserDto): Promise<string> {
-  //   console.log(input);
-  //   await this.service.signup(input);
-  //   return input.username;
-  // }
+  @Mutation(() => User)
+  async signup(@Args('input') input: CreateUserDto): Promise<User> {
+    console.log(input);
+    return this.service.signup(input);
+  }
 
   @Mutation(() => String)
-  async signupWithGoogle(@Args('input') input: TokenDTO): Promise<string> {
-    console.log(input);
-    await this.service.signupWithGoogle(input.token);
-    return input.token;
+  async signupWithGoogle(@Args('input') input: TokenDTO): Promise<User> {
+    const user = this.service.signupWithGoogle(input.token);
+    return user;
   }
 
-  @Query(() => String)
-  async authenticateWithGoogle(
-    @Args('input') input: TokenDTO,
-  ): Promise<string> {
-    //const { accessTokenCookie, refreshTokenCookie, user } =
-    await this.service.authenticateWithGoogle(input.token);
-    // request.res.setHeader('Set-Cookie', [
-    //   accessTokenCookie,
-    //   refreshTokenCookie,
-    // ]);
-    // console.log(accessTokenCookie, refreshTokenCookie, user);
-    // console.log(input.token)
-    return input.token;
+  @Query(() => User)
+  async authenticateWithGoogle(@Args('input') input: TokenDTO) {
+    const data = await this.service.authenticateWithGoogle(input.token);
+    const user: User = {
+      id: data.id,
+      email: data.email,
+      username: data.username,
+    };
+    return user;
   }
 }

@@ -2,15 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserDto {
+type User {
   id: String!
   username: String!
   email: String!
 }
 
 type Query {
-  authenticate: UserDto!
-  authenticateWithGoogle(input: TokenDTO!): String!
+  authenticate(input: LoginDto!): String!
+  authenticateWithGoogle(input: TokenDTO!): User!
+}
+
+input LoginDto {
+  email: String!
+  password: String!
 }
 
 input TokenDTO {
@@ -18,5 +23,12 @@ input TokenDTO {
 }
 
 type Mutation {
+  signup(input: CreateUserDto!): User!
   signupWithGoogle(input: TokenDTO!): String!
+}
+
+input CreateUserDto {
+  email: String!
+  username: String!
+  password: String!
 }
