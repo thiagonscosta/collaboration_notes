@@ -15,7 +15,6 @@ const getters = {};
 
 const actions = {
   async authenticate({ commit }, input) {
-    console.log(input);
     const { res } = await apolloClient.query({
       query: AUTHENTICATE,
       variables: { input: input },
@@ -24,15 +23,16 @@ const actions = {
   },
 
   async authenticateWithGoogle({ commit }, input) {
-    const { res } = await apolloClient.query({
+    const { data } = await apolloClient.query({
       query: AUTHENTICATE_WITH_GOOGLE,
       variables: { input: input },
     });
+    console.log(data);
     commit("setUser", commit);
   },
 
   async createUserWithGoogle({ commit }, input) {
-    const { res } = await apolloClient.mutate({
+    const { data } = await apolloClient.mutate({
       mutation: CREATE_USER_WITH_GOOGLE,
       variables: { input: input },
     });
@@ -41,7 +41,7 @@ const actions = {
 
   async createUser({ commit }, input) {
     console.log(input);
-    const { res } = await apolloClient.mutate({
+    const { data } = await apolloClient.mutate({
       mutation: CREATE_USER,
       variables: { input: input },
     });

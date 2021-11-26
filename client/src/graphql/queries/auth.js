@@ -8,7 +8,12 @@ export const AUTHENTICATE = gql`
 
 export const AUTHENTICATE_WITH_GOOGLE = gql`
   query ($input: TokenDTO!) {
-    authenticateWithGoogle(input: $input)
+    authenticateWithGoogle(input: $input) {
+      id
+      email
+      username
+      token
+    }
   }
 `;
 
