@@ -34,7 +34,7 @@ declare
 		end if;
 	end if;
 
-    if fv_jsonb->>'auth_with_google' then 
+	if fv_jsonb->>'auth_with_google' then 
         lv_user := row_to_json(dmlapi_users_merge(fv_jsonb));
     end if;
 
@@ -46,7 +46,7 @@ declare
 			'password'	,	crypt(fv_jsonb->>'password', gen_salt('bf'))
 		));
 	end if;
-
+		
 	open cr_user(lv_user->>'email');
 	fetch cr_user into lv_payload;
   	close cr_user;
