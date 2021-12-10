@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
 import { ref } from "vue";
 
 export default {
@@ -43,4 +42,3 @@ export default {
   },
 };
 </script>
-

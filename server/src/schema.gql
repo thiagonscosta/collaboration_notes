@@ -2,16 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthUser {
+type User {
   id: String!
   username: String!
   email: String!
+}
+
+type AuthUser {
+  user: User!
   token: String!
 }
 
 type Query {
   authenticate(input: LoginDto!): AuthUser!
   authenticateWithGoogle(input: TokenDTO!): AuthUser!
+  notes: String!
 }
 
 input LoginDto {

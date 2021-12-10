@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Auth, google } from 'googleapis';
 import { AuthenticateRepository } from './authenticate.repository';
+import { AuthUser } from './dto/auth_user.dto';
 import { CreateUserDto } from './dto/createUser-dto';
-import { AuthUser } from './models/auth_user';
+import { User } from './models/user';
 
 @Injectable()
 export class AuthenticateService {
@@ -21,15 +22,13 @@ export class AuthenticateService {
     this.oauthClient = new google.auth.OAuth2(clientID, clientSecret);
   }
 
-  async signupWithGoogle(token: string): Promise<AuthUser> {
-    console.log('token', token);
+  async signupWithGoogle(token: string): Promise<User> {
     const userInfo = await this.getUserData(token);
 
     if (!userInfo.verified_email) {
       throw new HttpException('Invalid email', 403);
     }
 
-    console.log(userInfo);
     const userData = {
       username: userInfo.name,
       email: userInfo.email,
@@ -41,7 +40,7 @@ export class AuthenticateService {
     return user;
   }
 
-  async signup(data: CreateUserDto): Promise<AuthUser> {
+  async signup(data: CreateUserDto): Promise<User> {
     const user = await this.repository.signupWithGoogle(data);
     return user;
   }
@@ -55,9 +54,16 @@ export class AuthenticateService {
 
     const email = tokenInfo.email;
 
-    const user = await this.repository.authenticateWithGoogle({ email });
+    const user: User = await this.repository.authenticateWithGoogle({ email });
 
-    return user;
+    const jwt = await this.jwtToken(user);
+
+    const authUser: AuthUser = {
+      user,
+      token: jwt
+    }
+
+    return authUser;
   }
 
   async getTokenInfo(token: string) {
@@ -78,7 +84,7 @@ export class AuthenticateService {
     return infoResponse.data;
   }
 
-  private jwtToken(auth: AuthUser): Promise<string> {
+  private jwtToken(auth: User): Promise<string> {
     const payload = { username: auth.username, sub: auth.id };
     return this.jwtService.signAsync(payload);
   }

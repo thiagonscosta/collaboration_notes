@@ -19,6 +19,7 @@ import { ProfileModule } from './profile/profile.module';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req }) => ({ req })
     }),
     NotesModule,
     ProfileModule,
