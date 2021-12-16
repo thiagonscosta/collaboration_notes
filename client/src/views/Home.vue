@@ -3,38 +3,45 @@
     <AppBar />
     <div class="container-grid">
       <SideListNotes />
-      <div>
-        <QuillEditor theme="snow" @textChange="test" />
-      </div>
     </div>
+    <quill-editor theme="snow" v-model="content" @textChange="textChange($event)"></quill-editor>
   </div>
 </template>
 
 <script>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { QuillEditor } from "@vueup/vue-quill";
+import { ref, watch } from "vue";
 import SideListNotes from "../components/SideListNotes.vue";
 import AppBar from "../components/AppBar.vue";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
   name: "Home",
   components: {
-    QuillEditor,
     SideListNotes,
     AppBar,
+    QuillEditor
   },
   setup() {
     const store = useStore();
 
-    store.dispatch("notesModule/findNotes");
+    const content = ref('');
 
-    function test(e) {
-      console.log(e);
+    function test() {
+      console.log(content)
     }
 
+    function textChange(e) {
+      console.log(e)
+    }
+
+    store.dispatch("notesModule/findNotes");
+
     return {
+      content,
+      textChange,
       user: computed(() => store.state.authModule.user),
       token: computed(() => store.state.authModule.token),
     };

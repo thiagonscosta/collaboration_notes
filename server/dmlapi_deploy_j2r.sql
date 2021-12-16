@@ -1,8 +1,8 @@
 
-create or replace function public.dmlapi_users_notes_j2r(
+create or replace function public.dmlapi_deploy_j2r(
     fv_jsonb jsonb
 )
-    returns public.users_notes
+    returns public.deploy
     language plpgsql
     security definer
 as $function$
@@ -10,15 +10,13 @@ as $function$
 -- (c) Copyright 2021 Antoniel Lima (antonielliimma@gmail.com)
 -- (c) Copyright 2021 desenroladev.com.br
 ------------------------------------------------------------------
--- public.users_notes: jsonb to record
+-- public.deploy: jsonb to record
 ------------------------------------------------------------------
 declare
-    lv_data             public.users_notes;
+    lv_data             public.deploy;
 begin
     ------------------------------------------------------------
-    lv_data.id                                        = fv_jsonb->>'id';                                        --001 uuid not null
-    lv_data.user_id                                   = fv_jsonb->>'user_id';                                   --002 uuid
-    lv_data.note_id                                   = fv_jsonb->>'note_id';                                   --003 uuid
+    
     ------------------------------------------------------------
     return lv_data;
 end;

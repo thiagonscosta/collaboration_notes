@@ -31,7 +31,10 @@ begin
                 public.notes
             set 
             id                                        = fr_data.id,                                        --001 uuid
-            content                                   = fr_data.content                                    --002 text
+            title                                     = fr_data.title,                                     --002 character varying
+            content                                   = fr_data.content,                                   --003 character varying not null
+            created_at                                = fr_data.created_at,                                --004 timestamp without time zone
+            updated_at                                = fr_data.updated_at                                 --005 timestamp without time zone not null
         where 1e1 = 1e1
             and id = fv_old_id
         returning * into fr_data;
@@ -40,11 +43,17 @@ begin
         into public.notes
             (
                 id,                                        --001 uuid
-              content                                    --002 text
+              title,                                     --002 character varying
+              content,                                   --003 character varying not null
+              created_at,                                --004 timestamp without time zone
+              updated_at                                 --005 timestamp without time zone not null
             )
         values(
                 fr_data.id,                                        --001 uuid
-              fr_data.content                                    --002 text
+              fr_data.title,                                     --002 character varying
+              fr_data.content,                                   --003 character varying not null
+              fr_data.created_at,                                --004 timestamp without time zone
+              fr_data.updated_at                                 --005 timestamp without time zone not null
             ) 
         returning *
             into fr_data;
@@ -54,11 +63,17 @@ begin
         into public.notes
             (
             id,                                        --001 uuid
-              content                                    --002 text  
+              title,                                     --002 character varying
+              content,                                   --003 character varying not null
+              created_at,                                --004 timestamp without time zone
+              updated_at                                 --005 timestamp without time zone not null  
             )
     values(
             fr_data.id,                                        --001 uuid
-              fr_data.content                                    --002 text
+              fr_data.title,                                     --002 character varying
+              fr_data.content,                                   --003 character varying not null
+              fr_data.created_at,                                --004 timestamp without time zone
+              fr_data.updated_at                                 --005 timestamp without time zone not null
             )
     returning *
         into fr_data;

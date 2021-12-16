@@ -1,9 +1,9 @@
 
-create or replace function public.dmlapi_users_notes_merge(
-    fr_data public.users_notes,
+create or replace function public.dmlapi_deploy_merge(
+    fr_data public.deploy,
     fv_old_id uuid default null
 ) 
-    returns public.users_notes
+    returns public.deploy
     language plpgsql
     security definer
 as $function$
@@ -11,10 +11,10 @@ as $function$
 -- (c) Copyright 2021 Antoniel Lima (antonielliimma@gmail.com)
 -- (c) Copyright 2021 desenroladev.com.br
 ------------------------------------------------------------------
--- dmlapi_users_notes_merge: insert or update
+-- dmlapi_deploy_merge: insert or update
 ------------------------------------------------------------------
 declare
-    lr_data    public.users_notes;
+    lr_data    public.deploy;
 begin
     -------------------------------------------------------------------------------------
     -- UPDATE FROM PK WITH OLD ID
@@ -24,46 +24,36 @@ begin
     end if;
     -------------------------------------------------------------------------------------
     if (fr_data.id is not null) then
-    lr_data := public.dmlapi_users_notes_select(fv_id      => fv_old_id,
+    lr_data := public.dmlapi_deploy_select(fv_id      => fv_old_id,
                                                                 fv_locking => true);
     if (lr_data.id is not null) then
-        update --+ qb_name(dmlapi_users_notes_merge)
-                public.users_notes
+        update --+ qb_name(dmlapi_deploy_merge)
+                public.deploy
             set 
-            id                                        = fr_data.id,                                        --001 uuid
-            user_id                                   = fr_data.user_id,                                   --002 uuid not null
-            note_id                                   = fr_data.note_id                                    --003 uuid not null
+            
         where 1e1 = 1e1
             and id = fv_old_id
         returning * into fr_data;
     else
-        insert --+ qb_name(dmlapi_users_notes_merge)
-        into public.users_notes
+        insert --+ qb_name(dmlapi_deploy_merge)
+        into public.deploy
             (
-                id,                                        --001 uuid
-              user_id,                                   --002 uuid not null
-              note_id                                    --003 uuid not null
+                
             )
         values(
-                fr_data.id,                                        --001 uuid
-              fr_data.user_id,                                   --002 uuid not null
-              fr_data.note_id                                    --003 uuid not null
+                
             ) 
         returning *
             into fr_data;
     end if;
     else
-    insert --+ qb_name(dmlapi_users_notes_merge)
-        into public.users_notes
+    insert --+ qb_name(dmlapi_deploy_merge)
+        into public.deploy
             (
-            id,                                        --001 uuid
-              user_id,                                   --002 uuid not null
-              note_id                                    --003 uuid not null  
+              
             )
     values(
-            fr_data.id,                                        --001 uuid
-              fr_data.user_id,                                   --002 uuid not null
-              fr_data.note_id                                    --003 uuid not null
+            
             )
     returning *
         into fr_data;
@@ -77,8 +67,8 @@ $function$
 
 
 ----------------------------------------------------
-create or replace function public.dmlapi_users_notes_merge(fv_jsonb jsonb)
-returns public.users_notes
+create or replace function public.dmlapi_deploy_merge(fv_jsonb jsonb)
+returns public.deploy
 language plpgsql
 security definer
 as $function$
@@ -86,30 +76,30 @@ as $function$
 -- (c) Copyright 2021 Antoniel Lima (antonielliimma@gmail.com)
 -- (c) Copyright 2021 desenroladev.com.br
 ------------------------------------------------------------------
--- dmlapi_users_notes_merge: insert or update collection
+-- dmlapi_deploy_merge: insert or update collection
 ------------------------------------------------------------------
 declare
-    lr_data           public.users_notes;
+    lr_data           public.deploy;
     lv_jsonb          jsonb;
 begin
     ------------------------------------------------------------------------------
-    lr_data := public.dmlapi_users_notes_select(fv_id      => (fv_jsonb->>'id')::uuid,
+    lr_data := public.dmlapi_deploy_select(fv_id      => (fv_jsonb->>'id')::uuid,
                                             fv_locking => true);
     ------------------------------------------------------------------------------
     if lr_data.id is not null then
-        lv_jsonb := public.dmlapi_users_notes_r2j(fr_data => lr_data);
+        lv_jsonb := public.dmlapi_deploy_r2j(fr_data => lr_data);
         lv_jsonb := lv_jsonb || fv_jsonb;
     else
         lv_jsonb := fv_jsonb;
     end if;
     ------------------------------------------------------------------------------
-    lr_data := public.dmlapi_users_notes_j2r(fv_jsonb => lv_jsonb);
+    lr_data := public.dmlapi_deploy_j2r(fv_jsonb => lv_jsonb);
     ------------------------------------------------------------------------------
     if lr_data.id is null then
         lr_data.id := gen_random_uuid();
     end if;
     ------------------------------------------------------------------------------
-    return public.dmlapi_users_notes_merge(fr_data => lr_data, fv_old_id => (fv_jsonb->>'old_id')::uuid);
+    return public.dmlapi_deploy_merge(fr_data => lr_data, fv_old_id => (fv_jsonb->>'old_id')::uuid);
 exception when others then
 raise;
 end; $function$;

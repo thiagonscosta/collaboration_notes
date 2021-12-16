@@ -5,8 +5,6 @@ import GAuth from "vue3-google-oauth2";
 import store from "./store";
 import apolloProvider from "./graphql/apollo";
 
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'bootstrap'
 import "./styles/sass/app.scss";
 
 const gAuthOptions = {

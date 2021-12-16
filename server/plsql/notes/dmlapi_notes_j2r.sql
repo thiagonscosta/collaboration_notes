@@ -17,7 +17,10 @@ declare
 begin
     ------------------------------------------------------------
     lv_data.id                                        = fv_jsonb->>'id';                                        --001 uuid not null
-    lv_data.content                                   = fv_jsonb->>'content';                                   --002 text not null
+    lv_data.title                                     = fv_jsonb->>'title';                                     --002 character varying not null
+    lv_data.content                                   = fv_jsonb->>'content';                                   --003 character varying
+    lv_data.created_at                                = coalesce((fv_jsonb->>'created_at')::timestamp without time zone, now());                                --004 timestamp without time zone not null
+    lv_data.updated_at                                = fv_jsonb->>'updated_at';                                --005 timestamp without time zone
     ------------------------------------------------------------
     return lv_data;
 end;

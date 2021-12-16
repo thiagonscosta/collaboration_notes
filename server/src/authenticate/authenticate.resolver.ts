@@ -21,7 +21,7 @@ export class AuthenticateResolver {
   }
 
   @Mutation(() => AuthUser)
-  async signupWithGoogle(@Args('input') input: TokenDTO): Promise<User> {
+  async signupWithGoogle(@Args('input') input: TokenDTO) {
     const user = this.service.signupWithGoogle(input.token);
     return user;
   }

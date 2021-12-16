@@ -7,6 +7,7 @@ const getHeaders = () => {
   const headers = {};
   const token = JSON.parse(localStorage.getItem("token"));
   if (token) {
+    console.log("TOKEN", token);
     headers.authorization = `Bearer ${token}`;
   }
   return headers;

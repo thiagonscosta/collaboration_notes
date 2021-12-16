@@ -22,15 +22,17 @@ export class AuthenticateService {
     this.oauthClient = new google.auth.OAuth2(clientID, clientSecret);
   }
 
-  async signupWithGoogle(token: string): Promise<User> {
+  async signupWithGoogle(token: string) {
     const userInfo = await this.getUserData(token);
+
+    console.log(userInfo);
 
     if (!userInfo.verified_email) {
       throw new HttpException('Invalid email', 403);
     }
 
     const userData = {
-      username: userInfo.name,
+      username: userInfo.name ?? userInfo.email,
       email: userInfo.email,
       auth_with_google: true,
     };
@@ -60,8 +62,8 @@ export class AuthenticateService {
 
     const authUser: AuthUser = {
       user,
-      token: jwt
-    }
+      token: jwt,
+    };
 
     return authUser;
   }

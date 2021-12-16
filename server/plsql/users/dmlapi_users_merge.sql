@@ -31,10 +31,12 @@ begin
                 public.users
             set 
             id                                        = fr_data.id,                                        --001 uuid
-            username                                  = fr_data.username,                                  --002 character varying not null
+            username                                  = fr_data.username,                                  --002 character varying
             email                                     = fr_data.email,                                     --003 character varying
             password                                  = fr_data.password,                                  --004 character varying not null
-            auth_whith_google                         = fr_data.auth_whith_google                          --006 boolean not null
+            auth_with_google                          = fr_data.auth_with_google,                          --005 boolean
+            created_at                                = fr_data.created_at,                                --006 timestamp without time zone
+            updated_at                                = fr_data.updated_at                                 --007 timestamp without time zone not null
         where 1e1 = 1e1
             and id = fv_old_id
         returning * into fr_data;
@@ -43,17 +45,21 @@ begin
         into public.users
             (
                 id,                                        --001 uuid
-              username,                                  --002 character varying not null
+              username,                                  --002 character varying
               email,                                     --003 character varying
               password,                                  --004 character varying not null
-              auth_whith_google                          --006 boolean not null
+              auth_with_google,                          --005 boolean
+              created_at,                                --006 timestamp without time zone
+              updated_at                                 --007 timestamp without time zone not null
             )
         values(
                 fr_data.id,                                        --001 uuid
-              fr_data.username,                                  --002 character varying not null
+              fr_data.username,                                  --002 character varying
               fr_data.email,                                     --003 character varying
               fr_data.password,                                  --004 character varying not null
-              fr_data.auth_whith_google                          --006 boolean not null
+              fr_data.auth_with_google,                          --005 boolean
+              fr_data.created_at,                                --006 timestamp without time zone
+              fr_data.updated_at                                 --007 timestamp without time zone not null
             ) 
         returning *
             into fr_data;
@@ -63,17 +69,21 @@ begin
         into public.users
             (
             id,                                        --001 uuid
-              username,                                  --002 character varying not null
+              username,                                  --002 character varying
               email,                                     --003 character varying
               password,                                  --004 character varying not null
-              auth_whith_google                          --006 boolean not null  
+              auth_with_google,                          --005 boolean
+              created_at,                                --006 timestamp without time zone
+              updated_at                                 --007 timestamp without time zone not null  
             )
     values(
             fr_data.id,                                        --001 uuid
-              fr_data.username,                                  --002 character varying not null
+              fr_data.username,                                  --002 character varying
               fr_data.email,                                     --003 character varying
               fr_data.password,                                  --004 character varying not null
-              fr_data.auth_whith_google                          --006 boolean not null
+              fr_data.auth_with_google,                          --005 boolean
+              fr_data.created_at,                                --006 timestamp without time zone
+              fr_data.updated_at                                 --007 timestamp without time zone not null
             )
     returning *
         into fr_data;

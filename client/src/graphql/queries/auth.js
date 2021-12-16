@@ -21,7 +21,12 @@ export const AUTHENTICATE_WITH_GOOGLE = gql`
 
 export const CREATE_USER_WITH_GOOGLE = gql`
   mutation ($input: TokenDTO!) {
-    signupWithGoogle(input: $input)
+    signupWithGoogle(input: $input) {
+      user {
+        id,
+        username
+      }
+    }
   }
 `;
 

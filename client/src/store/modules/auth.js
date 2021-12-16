@@ -7,9 +7,9 @@ import {
 } from "../../graphql/queries/auth";
 import router from "../../router";
 
-const status = localStorage.getItem("user")
-  ? { loggedIn: true }
-  : { loggedIn: false };
+// const status = localStorage.getItem("user")
+//   ? { loggedIn: true }
+//   : { loggedIn: false };
 
 const state = () => ({
   user: localStorage.getItem("user")
@@ -18,7 +18,7 @@ const state = () => ({
   token: localStorage.getItem("token")
     ? JSON.parse(JSON.stringify(localStorage.getItem("token")))
     : "",
-  status: status,
+  // status: status,
 });
 
 const getters = {};
@@ -39,8 +39,14 @@ const actions = {
     });
     commit("setUser", data.authenticateWithGoogle.user);
     commit("setToken", data.authenticateWithGoogle.token);
-    localStorage.setItem("user", data.authenticateWithGoogle.user);
-    localStorage.setItem("token", data.authenticateWithGoogle.token);
+    localStorage.setItem(
+      "user",
+      JSON.stringify(data.authenticateWithGoogle.user)
+    );
+    localStorage.setItem(
+      "token",
+      JSON.stringify(data.authenticateWithGoogle.token)
+    );
     router.push("/home");
   },
 
@@ -49,7 +55,7 @@ const actions = {
       mutation: CREATE_USER_WITH_GOOGLE,
       variables: { input: input },
     });
-    commit("setUser", res);
+    commit("setUser", data);
   },
 
   async createUser({ commit }, input) {

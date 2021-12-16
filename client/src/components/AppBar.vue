@@ -12,7 +12,7 @@
 <script>
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import DropDown from "./DropDown.vue";
 
 export default {
@@ -31,6 +31,10 @@ export default {
     function handleSelect(e) {
       console.log("key", e);
     }
+
+    // onMounted(() => {
+    //   console.log(user.value)
+    // });
 
     return {
       user: computed(() => store.state.authModule.user),
