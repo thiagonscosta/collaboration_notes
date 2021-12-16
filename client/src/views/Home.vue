@@ -4,7 +4,7 @@
     <div class="container-grid">
       <SideListNotes />
     </div>
-    <quill-editor theme="snow" v-model="content" @textChange="textChange($event)"></quill-editor>
+    <quill-editor theme="snow" v-model:content="content" @textChange="textChange($event)" contentType="html"></quill-editor>
   </div>
 </template>
 
@@ -29,12 +29,13 @@ export default {
 
     const content = ref('');
 
-    function test() {
-      console.log(content)
+    function test(e) {
+      console.log(e)
     }
 
     function textChange(e) {
-      console.log(e)
+      // console.log(e)
+      console.log(content)
     }
 
     store.dispatch("notesModule/findNotes");
@@ -42,6 +43,7 @@ export default {
     return {
       content,
       textChange,
+      test,
       user: computed(() => store.state.authModule.user),
       token: computed(() => store.state.authModule.token),
     };
